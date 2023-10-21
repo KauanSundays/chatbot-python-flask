@@ -3,18 +3,20 @@
     {
       "tag": "greeting",
       "patterns": [
-        "Hi",
+        "Mano",
         "Hey",
         "How are you",
         "Is anyone there?",
         "Hello",
-        "Good day"
+        "Good day",
+        "Mano"
       ],
       "responses": [
         "Hey :-)",
         "Hello, thanks for visiting",
         "Hi there, what can I do for you?",
-        "Hi there, how can I help?"
+        "Hi there, how can I help?",
+        "Seja bem vindo selecione um desses"
       ]
     },
     {
