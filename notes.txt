@@ -1,0 +1,12 @@
+Para rodar o chat no terminal, rode esses comandos: 
+
+python train.py
+
+para receber todas as respostas possiveis que estao no arquivo intents.json
+
+e depois rode 
+
+python chat.py
+
+e inicializará o chat no terminal
+
