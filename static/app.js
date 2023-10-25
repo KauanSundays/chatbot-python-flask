@@ -1,9 +1,9 @@
-class Chatbox {
+class chatbox {
     constructor() {
         // Inicialização das propriedades e elementos HTML associados
         this.args = {
             openButton: document.querySelector('.chatbox__button'), // Botão de abertura do chat
-            chatBox: document.querySelector('.chatbox__support'), // Caixa de chat
+            chatbox: document.querySelector('.chatbox__support'), // Caixa de chat
             enviarBotao: document.querySelector('.enviar__button'), // Botão de envio
         }
 
@@ -14,7 +14,7 @@ class Chatbox {
 
     // Configuração de ouvintes de eventos
     display () {
-        const {openButton, chatBox, enviarBotao} = this.args;
+        const {openButton, chatbox, enviarBotao} = this.args;
 
         // Ouvinte de clique no botão de abertura para alternar a visibilidade da caixa de chat
         openButton.addEventListener('click', () => this.toggleState(chatbox));
@@ -22,7 +22,7 @@ class Chatbox {
         // Ouvinte de clique no botão de envio para enviar mensagens
         enviarBotao.addEventListener('click', () => this.onEnviarBotao(chatbox));
 
-        const node = chatBox.querySelector('input');        
+        const node = chatbox.querySelector('input');        
 
         // Ouvinte de tecla para "Enter" no campo de entrada de texto
         node.addEventListener("keyup", ({key}) => {
@@ -33,18 +33,18 @@ class Chatbox {
     }
 
     // Método para alternar o estado da caixa de chat
-    toggleState(chatBox) 
+    toggleState(chatbox) 
     {
         this.state = !this.state;
 
         if(this.state) 
         {
-            chatBox.classList.add('chatbox-active'); 
+            chatbox.classList.add('chatbox--active'); 
             // Torna a caixa de chat visível
         } 
         else 
         {
-            chatBox.classList.remove('chatbox-active'); 
+            chatbox.classList.remove('chatbox--active'); 
             // Oculta a caixa de chat
         }
     }
@@ -89,7 +89,7 @@ class Chatbox {
         });
     } 
 
-    updateChatText(chatBox)
+    updateChatText(chatbox)
     {
         var html = '';
         this.messages.slice().reserve().forEach(function(item, index)
@@ -104,9 +104,9 @@ class Chatbox {
         });
 
         const chatMessage = chatbox.querySelector('.chatbox__messages');
-        chatmessage.innerHTML = html;
+        chatMessage.innerHTML = html;
     }
 }
 
-const chatbox = new Chatbox();
+const chatbox = new chatbox();
 chatbox.display();

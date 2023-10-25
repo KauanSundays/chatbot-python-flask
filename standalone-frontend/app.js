@@ -2,7 +2,7 @@ class Chatbox {
     constructor() {
         this.args = {
             openButton: document.querySelector('.chatbox__button'),
-            chatBox: document.querySelector('.chatbox__support'),
+            chatbox: document.querySelector('.chatbox__support'),
             sendButton: document.querySelector('.send__button')
         }
 
@@ -11,16 +11,16 @@ class Chatbox {
     }
 
     display() {
-        const {openButton, chatBox, sendButton} = this.args;
+        const {openButton, chatbox, sendButton} = this.args;
 
-        openButton.addEventListener('click', () => this.toggleState(chatBox))
+        openButton.addEventListener('click', () => this.toggleState(chatbox))
 
-        sendButton.addEventListener('click', () => this.onSendButton(chatBox))
+        sendButton.addEventListener('click', () => this.onSendButton(chatbox))
 
         const node = chatBox.querySelector('input');
         node.addEventListener("keyup", ({key}) => {
             if (key === "Enter") {
-                this.onSendButton(chatBox)
+                this.onSendButton(chatbox)
             }
         })
     }
