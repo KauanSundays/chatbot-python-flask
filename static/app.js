@@ -1,112 +1,95 @@
-class chatbox {
+class Chatbox {
     constructor() {
-        // Inicialização das propriedades e elementos HTML associados
         this.args = {
-            openButton: document.querySelector('.chatbox__button'), // Botão de abertura do chat
-            chatbox: document.querySelector('.chatbox__support'), // Caixa de chat
-            enviarBotao: document.querySelector('.enviar__button'), // Botão de envio
+            openButton: document.querySelector('.chatbox__button'),
+            chatBox: document.querySelector('.chatbox__support'),
+            sendButton: document.querySelector('.send__button')
         }
-
-        // Estado inicial do chat e matriz para armazenar mensagens
         this.state = false;
         this.messages = [];
     }
 
-    // Configuração de ouvintes de eventos
-    display () {
-        const {openButton, chatbox, enviarBotao} = this.args;
+    display() {
+        const {openButton, chatBox, sendButton} = this.args;
 
-        // Ouvinte de clique no botão de abertura para alternar a visibilidade da caixa de chat
-        openButton.addEventListener('click', () => this.toggleState(chatbox));
+        openButton.addEventListener('click',() => this.toggleState(chatBox))
 
-        // Ouvinte de clique no botão de envio para enviar mensagens
-        enviarBotao.addEventListener('click', () => this.onEnviarBotao(chatbox));
+        sendButton.addEventListener('click',() => this.onSendButton(chatBox))
 
-        const node = chatbox.querySelector('input');        
-
-        // Ouvinte de tecla para "Enter" no campo de entrada de texto
+        const node = chatBox.querySelector('input');
         node.addEventListener("keyup", ({key}) => {
-            if(key === "Enter") {
-                this.onEnviarBotao(chatbox);
-            }
+          if(key === "Enter") {
+             this.onSendButton(chatBox)
+          }
         })
     }
 
-    // Método para alternar o estado da caixa de chat
-    toggleState(chatbox) 
-    {
+    toggleState(chatbox){
         this.state = !this.state;
 
-        if(this.state) 
-        {
-            chatbox.classList.add('chatbox--active'); 
-            // Torna a caixa de chat visível
-        } 
-        else 
-        {
-            chatbox.classList.remove('chatbox--active'); 
-            // Oculta a caixa de chat
+        // show or hides the box
+        if(this.state) {
+            chatbox.classList.add('chatbox--active')
+        } else {
+            chatbox.classList.remove('chatbox--active')
+
         }
     }
 
-    // Método para lidar com o envio de mensagens
-    onEnviarBotao(chatbox)
-    {
+    onSendButton(chatbox){
         var textField = chatbox.querySelector('input');
-        let text1 = textField.value;
-
-        // Verifica se o campo de texto está vazio e retorna se for o caso
-        if (text1 === "")
-        {
+        let text1 = textField.value
+        if (text1 === "") {
             return;
         }
 
-        // Cria uma mensagem do usuário e a adiciona à matriz de mensagens
-        let msg1 = {name: "User", message: text1};
+        let msg1 = {name: "User", message: text1}
         this.messages.push(msg1);
-        
-        // Envia uma solicitação POST provavelmente para obter uma resposta do servidor
-        fetch($SCRIPT_ROOT + '/predict', {
-            method: 'POST',
-            body: JSON.stringify({message: text1}),
-            mode: 'cors',
-            headers: {
-                'Content-Type' : 'application/json'
-            },
-        })
-        .then(r => r.json())
-        .then(r => {
-            // Cria uma mensagem de "Sam" com a resposta e a adiciona à matriz de mensagens
-            let msg2 = { name: "Sam", message: r.answer };
-            this.messages.push(msg2);
-            this.updateChatText(chatbox); // Atualiza o conteúdo do chat
-            textField.value = ''; // Limpa o campo de entrada de texto
-        })
-        .catch((error) => {
-            console.error('Error: ', error);
-            this.updateChatText(chatbox); // Atualiza o conteúdo do chat em caso de erro
-            textField.value = ''; // Limpa o campo de entrada de texto em caso de erro
-        });
-    } 
 
-    updateChatText(chatbox)
-    {
-        var html = '';
-        this.messages.slice().reserve().forEach(function(item, index)
-        {
-            if (item.name === "Sam")
-            {
-                html += '<div class="messages__item messages__item--visitor">'+ item.message + '</div>'
-            } else
-            {
-                html += '<div class="messages__item messages__item--operator">'+ item.message + '</div>'
-            }
-        });
+        //'http://127.0.0.1:5000/predict'
+        fetch($SCRIPT_ROOT + '/predict',{
+           method: 'POST',
+           body: JSON.stringify({ message: text1 }),
+           mode: 'cors',
+           headers: {
+             'Content-Type': 'application/json'
+           },
+         })
+         .then(r => r.json())
+         .then(r => {
+           let msg2 = {name: "Bot", message: r.answer};
+           this.messages.push(msg2);
+           this.updateChatText(chatbox)
+           textField.value = ''
 
-        const chatMessage = chatbox.querySelector('.chatbox__messages');
-        chatMessage.innerHTML = html;
+
+        }).catch((error) => {
+            console.error('Error:',error);
+            this.updateChatText(chatbox)
+            textField.value = ''
+         });
+
     }
-}
+    updateChatText(chatbox){
+         var html = '';
+         this.messages.slice().reverse().forEach(function(item){
+             if (item.name === "Bot")
+             {
+                 html += '<div class="messages__item messages__item--visitor">' + item.message + '</div>'
+             }
+             else
+             {
+                html += '<div class="messages__item messages__item--operator">' + item.message + '</div>'
+             }
+           });
 
-const chatbox = new chatbox();
+         const chatmessage = chatbox.querySelector('.chatbox__messages');
+         chatmessage.innerHTML = html;
+    }
+
+
+}
+const chatbox = new Chatbox();
 chatbox.display();
+
+
