@@ -9,6 +9,10 @@ CORS(app)
 def index_get():
     return render_template("base.html")
 
+@app.route("/why")
+def why_page():
+    return render_template("why.html")
+
 
 @app.post("/predict")
 def predict():
